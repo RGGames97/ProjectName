@@ -12,3 +12,39 @@ background-size: 600px 600px;
 .nav-link i{
     margin-right: 10px;
 }
+#avatar {
+    width:100%;
+    margin: 2rem 0;
+}
+#avatar img{
+    width: 33%;
+    height:auto;
+    margin: 0 auto;
+    display: block
+
+}
+
+body {
+    background-color: black;
+    color: white;
+}
+
+.grid-item{
+    width: calc(33.3333% - 30px);
+    float: left;
+    margin-bottom: 30px;
+}
+.grid-item img{
+    width: 100%;
+    height: auto;
+}
+#image img{
+    width: 100%;
+}
+#navbar i{
+    margin-right: 5px;
+}
+
+.dropdown-item{
+    color:#fff;
+}
