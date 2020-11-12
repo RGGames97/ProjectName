@@ -6,10 +6,20 @@ from app import SITE_ROOT
 class Upload():
 
     def __init__(self):
+        """
+        Instantiates the class
+
+        """
         self.extensions = {'png', 'jpg', 'jpeg', 'gif'}
 
     def upload(self, file, filename):
+        """
+        uploads file name 
+        """
+
         allowed_extension = self.allowed_file(file.filename)
+      
+
         if allowed_extension:
             fullname = filename + '.' + allowed_extension
             destination = os.path.join('static/uploads', fullname)
@@ -19,6 +29,10 @@ class Upload():
             raise Exception("Only allowed filetypes: ".join(self.extensions.values()))
 
     def allowed_file(self, filename):
+          """
+        It allows the file to be used 
+        """
+        
         if ('.' in filename and filename.rsplit('.', 1)[1].lower() in self.extensions):
             return filename.rsplit('.', 1)[1].lower()
         return False

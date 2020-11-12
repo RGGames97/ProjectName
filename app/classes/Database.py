@@ -39,29 +39,41 @@ class Database():
             "USER_DISABLED": "This account has been disabled by an administrator.",
         }
 
-    # Image Requests
     def get_images(self, limit=20, user_id=False):
-        
+        """
+        Gets the images from the database
+
+        """
+        # Tries to get images
         try:
+            # Get the images for this user
             if (user_id):
                 images = self.db.child("images").order_by_child("user_id").equal_to(user_id).limit_to_first(limit).get()
+            # Gets everyones images
             else:
                 images = self.db.child("images").order_by_child("user_id").limit_to_first(limit).get()
 
             flask_app.logger.info('####################### images val #####################')
             flask_app.logger.info(images.val())
+
+            # Checks whether we actually got images
             if isinstance(images.val(), OrderedDict):
                 return images
             else:
                 return False
-            
+
+        # We got an error, so send the error to the calling method
         except Exception as err:
             self.process_error(err)
 
     def get_category_images(self, category, limit=20):
+        """
+        Gets the 20 latest images for a category 
+        """
         try:
             images = self.db.child("images").order_by_child("category").equal_to(category).limit_to_first(limit).get()
 
+            # Checks whether we actually got images
             if isinstance(images.val(), OrderedDict):
                 return images
             else:
@@ -71,35 +83,50 @@ class Database():
             self.process_error(err)
         
     def get_image(self, image_id):
+        """
+        Looks for an image using the id
+        """
         
+        # Set initial variables
         error = None
         image = False
         
+        # Try to get the image
         try:
             image = self.db.child("images").child(image_id).get()
-
+            
         except Exception as err:
             flask_app.logger.info(err)
             error = err
 
+        # We got an error, so return the error
         if error:
             raise Exception(error)
         else:
             return image.val()
 
     def save_image(self, image_data, image_id):
+        """
+        Saves the image using an id 
+        """
         try:
             self.db.child("images").child(image_id).set(image_data)
         except Exception as err:
             self.process_error(err)
 
     def delete_image(self, image_id):
+        """
+        Deletes the image with matching id
+        """
         try:
             self.db.child("images").child(image_id).remove()
         except Exception as err:
             self.process_error(err)
 
     def remove_matching_value(self, data, value):
+        """
+        Removes value from list
+        """
         return_data = []
         for key in data:
             if key != value:
@@ -109,6 +136,10 @@ class Database():
 
     # User and Account Requests
     def register(self, user_data, password):
+        """
+        registers user 
+        """
+
         try:
             user_auth = self.auth.create_user_with_email_and_password(user_data['email'], password)
             user_data['localId'] = user_auth['localId']
@@ -118,6 +149,10 @@ class Database():
             self.process_error(err)
 
     def login(self, email, password):
+        """
+        checks credentials signs user in
+        """
+
         try:
             user_auth = self.auth.sign_in_with_email_and_password(email, password)
             user = self.db.child("users").child(user_auth['localId']).get().val()
@@ -126,6 +161,10 @@ class Database():
             self.process_error(err)
 
     def update_user(self, user_data):
+        """
+        Updates users data
+        """
+        
         try:
             self.db.child("users").child(user_data['localId']).update(user_data)
             return

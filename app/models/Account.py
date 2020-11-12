@@ -7,6 +7,11 @@ from flask import current_app as flask_app
 class Account():
 
     def __init__(self):
+         """ 
+        Initialise class with configuration 
+    
+        """
+
         self.user = User()
         return None
 
@@ -64,6 +69,10 @@ class Account():
             return
         
     def login(self, request):
+        """
+        It gets the users login credentials from the form and then sends it to the database
+        """
+
         if request.method == 'POST':
             email = request.form['email']
             password = request.form['password']
@@ -89,6 +98,9 @@ class Account():
             return
         
     def update(self, request):
+        """
+        It gets the users data from the form and then sends it to the database
+        """
         if request.method == 'POST':
             first_name = request.form['firstname']
             last_name = request.form['lastname']
@@ -99,12 +111,15 @@ class Account():
             elif not last_name:
                 error = 'A last name is required.'
             else:
+                #If the user has uplaoded an image, handle the file upload 
                 if 'avatar' in request.files:
                     file = request.files['avatar']
                     if file.filename:
                         uploader = Upload()
                         avatar = uploader.upload(file, session['user']['localId'])
                         session['user']['avatar'] = "/" + avatar.strip("/")
+
+                        #Try to update the user data 
                 try:
                     session['user']['first_name'] = first_name
                     session['user']['last_name'] = last_name

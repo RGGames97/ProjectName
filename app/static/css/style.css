@@ -1,9 +1,10 @@
+/* Error 404*/
 #error404{
-background: url(../img/img.jpg)no-repeat right center;
-height: calc(100vh - 56px);
-display: block;
-position: relative;
-background-size: 600px 600px;
+    background: url(../img/img.jpg)no-repeat right center;
+    height: calc(100vh - 56px);
+    display: block;
+    position: relative;
+    background-size: 600px 600px;
 }
 #error404 h1{
     font-size: 8rem;
@@ -29,6 +30,7 @@ body {
     color: white;
 }
 
+/* Masonry Grid */
 .grid-item{
     width: calc(33.3333% - 30px);
     float: left;
