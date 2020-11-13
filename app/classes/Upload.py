@@ -29,7 +29,7 @@ class Upload():
             raise Exception("Only allowed filetypes: ".join(self.extensions.values()))
 
     def allowed_file(self, filename):
-          """
+        """
         It allows the file to be used 
         """
         

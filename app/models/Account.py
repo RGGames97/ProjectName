@@ -7,7 +7,7 @@ from flask import current_app as flask_app
 class Account():
 
     def __init__(self):
-         """ 
+        """ 
         Initialise class with configuration 
     
         """
